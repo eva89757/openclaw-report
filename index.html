@@ -11,95 +11,274 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-s
 .hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:8px}
 .hero h1 em{font-style:normal;color:#ff6b47}
 .hero p{font-size:13px;opacity:.5}
-.wrap{max-width:880px;margin:0 auto;padding:32px 20px 60px}
+.wrap{max-width:920px;margin:0 auto;padding:32px 20px 60px}
 .badge{display:inline-block;background:#ff6b47;color:#fff;font-size:11px;padding:2px 10px;border-radius:12px;font-weight:600;margin-left:6px;vertical-align:middle}
-.section{margin-bottom:40px}
-.section h2{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #30363d;color:#e6edf3;display:flex;align-items:center}
+.section{margin-bottom:48px}
+.section h2{font-size:18px;font-weight:700;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #30363d;color:#e6edf3;display:flex;align-items:center}
 .section h2 .dot{width:8px;height:8px;border-radius:50%;background:#ff6b47;margin-right:10px;display:inline-block}
+
+/* Part cards */
+.parts{display:grid;gap:20px}
+.part{background:#161b22;border:1px solid #30363d;border-radius:14px;overflow:hidden;display:grid;grid-template-columns:180px 1fr;transition:border-color .2s}
+.part:hover{border-color:#ff6b47}
+.part-img{background:#0d1117;display:flex;align-items:center;justify-content:center;padding:24px;min-height:180px}
+.part-img img{max-width:140px;max-height:140px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+.part-info{padding:20px 24px;display:flex;flex-direction:column;justify-content:center}
+.part-info h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.part-info .price{font-size:22px;font-weight:800;color:#ff6b47;margin:6px 0}
+.part-info .price .old{font-size:14px;color:#6e7681;text-decoration:line-through;font-weight:400;margin-left:8px}
+.part-info .price .tag{display:inline-block;background:rgba(255,107,71,.15);color:#ff6b47;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle}
+.part-info .price .tag.green{background:rgba(63,185,80,.15);color:#3fb950}
+.specs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.spec{background:#21262d;padding:4px 10px;border-radius:6px;font-size:11px;color:#8b949e}
+.spec b{color:#c9d1d9}
+
+/* Summary table */
 table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #30363d}
 thead{background:#161b22}
 th{padding:14px 16px;text-align:left;font-size:13px;font-weight:600;color:#8b949e;letter-spacing:.5px;border-bottom:1px solid #30363d}
-th:nth-child(3),th:nth-child(4),th:nth-child(5){text-align:center}
+th:nth-child(n+3){text-align:center}
 td{padding:12px 16px;font-size:14px;border-bottom:1px solid #21262d;vertical-align:middle}
 tbody tr{transition:background .15s}
 tbody tr:hover{background:#1c2333}
-td:nth-child(3),td:nth-child(4),td:nth-child(5){text-align:center;font-variant-numeric:tabular-nums}
-.old{color:#6e7681;text-decoration:line-through;text-decoration-color:#484f58}
-.real{color:#e6edf3;font-weight:600}
+td:nth-child(n+3){text-align:center;font-variant-numeric:tabular-nums}
 .up{color:#ff6b47;font-weight:700}
 .ok{color:#3fb950;font-weight:600;font-size:13px}
 .note{color:#8b949e;font-size:11px;display:block;margin-top:2px}
-.summary{font-weight:700;font-size:15px}
-.summary td{background:#1c1917 !important;border-bottom:2px solid #30363d}
-.summary td.old{color:#6e7681}
+.summary td{font-weight:700;font-size:15px}
 .summary td.real{color:#ff6b47;font-size:16px}
 .summary td.up{font-size:15px}
-.split td{background:#21262d !important;height:6px;padding:0}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
-.chip{background:#21262d;border:1px solid #30363d;padding:6px 14px;border-radius:20px;font-size:12px;color:#8b949e}
-.chip b{color:#e6edf3}
-.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:24px}
-.card h3{font-size:15px;font-weight:700;margin-bottom:12px;color:#ff6b47}
-.card table{border:none;margin:0}
-.card thead{background:#21262d}
-.card td,.card th{border:none;border-bottom:1px solid #30363d}
-.card tbody tr:last-child td{border-bottom:none}
-.tip{background:#1c1917;border-left:3px solid #ff6b47;border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0;font-size:13px;color:#8b949e;line-height:1.8}
+.split td{background:#21262d!important;height:6px;padding:0}
+
+/* Recommend cards */
+.rec{background:#161b22;border:1px solid #30363d;border-radius:14px;padding:24px;margin-bottom:20px}
+.rec h3{font-size:16px;font-weight:700;margin-bottom:14px}
+.rec h3 .icon{margin-right:6px}
+.rec table{border:none}
+.rec thead{background:#21262d}
+.rec td,.rec th{border:none;border-bottom:1px solid #30363d}
+.rec tbody tr:last-child td{border-bottom:none}
+.rec .summary td{background:#1c1917!important}
+
+.tip{background:#1c1917;border-left:3px solid #ff6b47;border-radius:0 8px 8px 0;padding:16px 20px;font-size:13px;color:#8b949e;line-height:1.9}
 .tip b{color:#e6edf3}
 .footer{text-align:center;padding:32px 24px;color:#484f58;font-size:12px;border-top:1px solid #21262d}
-@media(max-width:600px){.hero{padding:40px 16px 32px}th,td{padding:10px 8px;font-size:12px}.wrap{padding:20px 12px 40px}}
+
+@media(max-width:700px){
+  .part{grid-template-columns:1fr}
+  .part-img{min-height:120px;padding:16px}
+  .part-img img{max-width:100px;max-height:100px}
+  th,td{padding:10px 8px;font-size:12px}
+  .wrap{padding:20px 12px 40px}
+}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>💻 5000元装机配置 <em>· 价格核算</em></h1>
-  <p>R7-5700X + RTX 5060 方案 · 基于京东/淘宝/拼多多实际售价 · 2026.03.19</p>
+  <p>R7-5700X + RTX 5060 方案 · 配件详情 · 2026.03.19</p>
 </div>
 
 <div class="wrap">
 
-<div class="chips">
-  <span class="chip">CPU <b>R7-5700X</b></span>
-  <span class="chip">显卡 <b>RTX 5060</b></span>
-  <span class="chip">内存 <b>DDR4 32GB</b></span>
-  <span class="chip">硬盘 <b>1TB NVMe</b></span>
-  <span class="chip">预算 <b>￥5,000</b></span>
+<!-- 配件详情卡片 -->
+<div class="section">
+  <h2><span class="dot"></span>配件详情与规格</h2>
+  <div class="parts">
+
+    <!-- CPU -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/226868/11/44948/34523/6705c3a0F14b6a3f3/1af5e02cd14dc982.jpg" alt="R7-5700X">
+      </div>
+      <div class="part-info">
+        <h3>CPU · 处理器</h3>
+        <div class="price">￥915 <span class="old">原 ￥650</span> <span class="tag">↑ +41%</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">AMD 锐龙7 5700X 全新散片</p>
+        <div class="specs">
+          <span class="spec"><b>架构</b> Zen 3 · 7nm</span>
+          <span class="spec"><b>核心</b> 8核16线程</span>
+          <span class="spec"><b>主频</b> 3.4GHz</span>
+          <span class="spec"><b>加速</b> 4.6GHz</span>
+          <span class="spec"><b>L3缓存</b> 32MB</span>
+          <span class="spec"><b>TDP</b> 65W</span>
+          <span class="spec"><b>接口</b> AM4</span>
+          <span class="spec"><b>超频</b> 支持</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主板 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/226397/20/47640/31081/670a3e3cF3da5e5e3/5a3d0d16a2c6f9a9.jpg" alt="B550M" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/159053/29/50970/38121/66e7a7c2F6c5d3e1d/3b7e9c0f0e7bc7ab.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>主板 · Motherboard</h3>
+        <div class="price">￥350 <span class="old">原 ￥450</span> <span class="tag green">✅ 降价</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">微星 B550M PRO-VDH</p>
+        <div class="specs">
+          <span class="spec"><b>芯片组</b> AMD B550</span>
+          <span class="spec"><b>插槽</b> AM4</span>
+          <span class="spec"><b>内存</b> DDR4 双通道</span>
+          <span class="spec"><b>M.2</b> 2个 PCIe 4.0</span>
+          <span class="spec"><b>供电</b> 8+2+1 相</span>
+          <span class="spec"><b>网口</b> 2.5G 有线</span>
+          <span class="spec"><b>音频</b> 7.1 声道</span>
+          <span class="spec"><b>板型</b> Micro-ATX</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 显卡 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/258060/11/53045/55150/67a60768Fe03d9f5a/9c6e7e0d1aa2b8a3.jpg" alt="RTX 5060">
+      </div>
+      <div class="part-info">
+        <h3>显卡 · GPU</h3>
+        <div class="price">￥2,600+ <span class="old">原 ￥2,100</span> <span class="tag">↑ +24%</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">NVIDIA GeForce RTX 5060 8GB</p>
+        <div class="specs">
+          <span class="spec"><b>核心</b> GB206</span>
+          <span class="spec"><b>CUDA</b> 3840 个</span>
+          <span class="spec"><b>加速频率</b> 2.625GHz</span>
+          <span class="spec"><b>显存</b> 8GB GDDR7</span>
+          <span class="spec"><b>位宽</b> 128-bit</span>
+          <span class="spec"><b>功耗</b> 145W</span>
+          <span class="spec"><b>供电</b> 1×8pin</span>
+          <span class="spec"><b>特性</b> DLSS 4 · 光追</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 内存 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/217640/3/49104/25499/6708f3d4F9a8d1a7/47e09c5eb1e77f4b.jpg" alt="DDR4内存" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/240758/14/50083/22839/670d42b7F996db40/8b8a676fa4e8c849.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>内存 · RAM</h3>
+        <div class="price">￥1,000-1,200 <span class="old">原 ￥400</span> <span class="tag">↑ +150-200%</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">DDR4 32GB（16G×2）3200MHz</p>
+        <div class="specs">
+          <span class="spec"><b>类型</b> DDR4</span>
+          <span class="spec"><b>容量</b> 16GB×2 双通道</span>
+          <span class="spec"><b>频率</b> 3200MHz</span>
+          <span class="spec"><b>时序</b> CL16-18</span>
+          <span class="spec"><b>电压</b> 1.35V</span>
+          <span class="spec"><b>散热</b> 铝合金马甲</span>
+          <span class="spec"><b>RGB</b> 可选</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 硬盘 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/186962/13/50732/28611/670a35caFe76ea6a5/60b86c4f80cbf7f1.jpg" alt="SSD" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/182882/20/51693/30382/670d5e5cF997d2b1e/a9d7c2b9a0dc8a9e.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>硬盘 · SSD</h3>
+        <div class="price">￥1,100-1,200 <span class="old">原 ￥400</span> <span class="tag">↑ +175-200%</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">1TB PCIe 4.0 NVMe（致态 TiPlus7100 / 铠侠 RC20）</p>
+        <div class="specs">
+          <span class="spec"><b>容量</b> 1TB</span>
+          <span class="spec"><b>接口</b> M.2 PCIe 4.0</span>
+          <span class="spec"><b>读速</b> 7000MB/s</span>
+          <span class="spec"><b>写速</b> 6000MB/s</span>
+          <span class="spec"><b>颗粒</b> TLC 原厂</span>
+          <span class="spec"><b>缓存</b> HMB</span>
+          <span class="spec"><b>质保</b> 5年</span>
+          <span class="spec"><b>MTBF</b> 150万小时</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 电源 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/223561/26/48420/21360/6709b7c6F65e11e84/74b7e2a38a74ba62.jpg" alt="电源" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/244443/11/51722/25830/670d5f13F9c0e0b99/f1b8e8e8f3f98d45.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>电源 · PSU</h3>
+        <div class="price">￥280-300 <span class="old">原 ￥250</span> <span class="tag">↑ +15%</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">550W 铜牌（振华 / 全汉 / 利民）</p>
+        <div class="specs">
+          <span class="spec"><b>功率</b> 550W 额定</span>
+          <span class="spec"><b>认证</b> 80PLUS 铜牌</span>
+          <span class="spec"><b>风扇</b> 12cm 静音</span>
+          <span class="spec"><b>模组</b> 非模组</span>
+          <span class="spec"><b>线材</b> 包含主供电线</span>
+          <span class="spec"><b>质保</b> 3-5年</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 散热 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/239259/11/51671/19016/67a5f074Fe1f2e2e0/92c9e7173caedf8b.jpg" alt="散热器" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/252392/3/52775/14695/67a834d5Fc0507ea8/c6ecbe0b87da8c48.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>散热 · Cooler</h3>
+        <div class="price">￥70 <span class="old">原 ￥60</span> <span class="tag green">✅</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">利民 AX120R SE</p>
+        <div class="specs">
+          <span class="spec"><b>类型</b> 塔式风冷</span>
+          <span class="spec"><b>热管</b> 4根 AGHP</span>
+          <span class="spec"><b>风扇</b> 120mm</span>
+          <span class="spec"><b>转速</b> 1550RPM</span>
+          <span class="spec"><b>噪音</b> ≤25dBA</span>
+          <span class="spec"><b>散热</b> 解热 150W+</span>
+          <span class="spec"><b>高度</b> 155mm</span>
+          <span class="spec"><b>Silent</b> 静音优化</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 机箱 -->
+    <div class="part">
+      <div class="part-img">
+        <img src="https://img14.360buyimg.com/n1/jfs/t1/200642/27/49752/26054/6709c1deF4dd22f37/c46504a5abf56e6a.jpg" alt="机箱" onerror="this.src='https://img14.360buyimg.com/n0/jfs/t1/186246/21/51603/30218/670d5f6bF3b11c41c/2ad3a0c8b09c3743.jpg'">
+      </div>
+      <div class="part-info">
+        <h3>机箱 · Case</h3>
+        <div class="price">￥100-150 <span class="old">原 ￥150</span> <span class="tag green">✅</span></div>
+        <p style="font-size:13px;color:#8b949e;margin:4px 0">先马趣造 II / 迅钛贝塔3号</p>
+        <div class="specs">
+          <span class="spec"><b>板型</b> M-ATX / ATX</span>
+          <span class="spec"><b>风道</b> 前进后出</span>
+          <span class="spec"><b>散热限高</b> 160mm</span>
+          <span class="spec"><b>显卡限长</b> 350mm+</span>
+          <span class="spec"><b>风扇位</b> 6-8个</span>
+          <span class="spec"><b>材质</b> 钢板 + 侧透</span>
+          <span class="spec"><b>I/O</b> USB3.0×2</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<!-- 价格对比表 -->
+<!-- 价格汇总表 -->
 <div class="section">
-  <h2><span class="dot"></span>原报价 vs 京东实际售价</h2>
+  <h2><span class="dot"></span>价格汇总</h2>
   <table>
     <thead><tr><th>配件</th><th>型号</th><th>原报价</th><th>京东实际价</th><th>涨幅</th></tr></thead>
     <tbody>
-      <tr><td>CPU</td><td>R7-5700X 全新散片</td><td><span class="old">￥650</span></td><td><span class="real">￥915</span></td><td class="up">+41%</td></tr>
-      <tr><td>主板</td><td>微星 B550M PRO-VDH</td><td><span class="old">￥450</span></td><td><span class="real">￥350 左右</span></td><td class="ok">✅ 基本对</td></tr>
-      <tr><td>显卡</td><td>RTX 5060 8GB</td><td><span class="old">￥2,100</span></td><td><span class="real">￥2,600+</span></td><td class="up">+24%</td></tr>
-      <tr><td>内存</td><td>DDR4 32GB（16G×2）3200MHz</td><td><span class="old">￥400</span></td><td><span class="real">￥1,000-1,200</span><span class="note">拆机条可压到 ~￥800</span></td><td class="up">+150-200%</td></tr>
-      <tr><td>硬盘</td><td>1TB PCIe 4.0 NVMe</td><td><span class="old">￥400</span></td><td><span class="real">￥1,100-1,200</span><span class="note">拆机盘 ~￥900</span></td><td class="up">+175-200%</td></tr>
-      <tr><td>电源</td><td>550W 铜牌（利民/振华）</td><td><span class="old">￥250</span></td><td><span class="real">￥280-300</span></td><td class="up">+15%</td></tr>
-      <tr><td>散热</td><td>利民 AX120R SE</td><td><span class="old">￥60</span></td><td><span class="real">￥70</span></td><td class="ok">✅</td></tr>
-      <tr><td>机箱</td><td>百元级机箱</td><td><span class="old">￥150</span></td><td><span class="real">￥100-150</span></td><td class="ok">✅</td></tr>
+      <tr><td>CPU</td><td>R7-5700X 全新散片</td><td style="color:#6e7681;text-decoration:line-through">￥650</td><td style="font-weight:600">￥915</td><td class="up">+41%</td></tr>
+      <tr><td>主板</td><td>微星 B550M PRO-VDH</td><td style="color:#6e7681;text-decoration:line-through">￥450</td><td style="font-weight:600">￥350 左右</td><td class="ok">✅</td></tr>
+      <tr><td>显卡</td><td>RTX 5060 8GB</td><td style="color:#6e7681;text-decoration:line-through">￥2,100</td><td style="font-weight:600">￥2,600+</td><td class="up">+24%</td></tr>
+      <tr><td>内存</td><td>DDR4 32GB（16G×2）3200</td><td style="color:#6e7681;text-decoration:line-through">￥400</td><td style="font-weight:600">￥1,000-1,200</td><td class="up">+150-200%</td></tr>
+      <tr><td>硬盘</td><td>1TB PCIe 4.0 NVMe</td><td style="color:#6e7681;text-decoration:line-through">￥400</td><td style="font-weight:600">￥1,100-1,200</td><td class="up">+175-200%</td></tr>
+      <tr><td>电源</td><td>550W 铜牌</td><td style="color:#6e7681;text-decoration:line-through">￥250</td><td style="font-weight:600">￥280-300</td><td class="up">+15%</td></tr>
+      <tr><td>散热</td><td>利民 AX120R SE</td><td style="color:#6e7681;text-decoration:line-through">￥60</td><td style="font-weight:600">￥70</td><td class="ok">✅</td></tr>
+      <tr><td>机箱</td><td>百元级机箱</td><td style="color:#6e7681;text-decoration:line-through">￥150</td><td style="font-weight:600">￥100-150</td><td class="ok">✅</td></tr>
       <tr class="split"><td colspan="5"></td></tr>
-      <tr class="summary"><td colspan="2" style="text-align:right">京东全新合计</td><td><span class="old">￥4,460</span></td><td><span class="real">￥6,425-6,775</span></td><td class="up">+￥2,000+</td></tr>
-      <tr class="summary"><td colspan="2" style="text-align:right">拆机件合计</td><td><span class="old">￥4,460</span></td><td><span class="real">￥5,400-5,800</span></td><td class="up">+￥1,000+</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- 涨价拆解 -->
-<div class="section">
-  <h2><span class="dot"></span>涨价成本拆解</h2>
-  <table>
-    <thead><tr><th>配件</th><th>原价</th><th>现价</th><th>多花</th><th>占比</th></tr></thead>
-    <tbody>
-      <tr><td>内存 DDR4 32GB</td><td>￥400</td><td>￥1,100</td><td class="up">+￥700</td><td>29%</td></tr>
-      <tr><td>硬盘 1TB NVMe</td><td>￥400</td><td>￥1,150</td><td class="up">+￥750</td><td>31%</td></tr>
-      <tr><td>显卡 RTX 5060</td><td>￥2,100</td><td>￥2,600</td><td class="up">+￥500</td><td>21%</td></tr>
-      <tr><td>CPU R7-5700X</td><td>￥650</td><td>￥915</td><td class="up">+￥265</td><td>11%</td></tr>
-      <tr><td>其他配件</td><td>￥460</td><td>￥550</td><td class="up">+￥90</td><td>8%</td></tr>
-      <tr class="summary"><td colspan="3" style="text-align:right">合计涨价</td><td class="up">+￥2,305</td><td class="up">100%</td></tr>
+      <tr class="summary"><td colspan="2" style="text-align:right">京东全新合计</td><td style="color:#6e7681;text-decoration:line-through">￥4,460</td><td class="real">￥6,425-6,775</td><td class="up">+￥2,000+</td></tr>
+      <tr class="summary"><td colspan="2" style="text-align:right">拆机件合计</td><td style="color:#6e7681;text-decoration:line-through">￥4,460</td><td class="real">￥5,400-5,800</td><td class="up">+￥1,000+</td></tr>
     </tbody>
   </table>
 </div>
@@ -107,44 +286,42 @@ td:nth-child(3),td:nth-child(4),td:nth-child(5){text-align:center;font-variant-n
 <!-- 推荐方案 -->
 <div class="section">
   <h2><span class="dot"></span>5000 元可行方案</h2>
-
-  <div class="card">
-    <h3>⚡ 方案 A：游戏最优（推荐）</h3>
+  <div class="rec">
+    <h3><span class="icon">⚡</span> 方案 A：游戏最优（推荐）</h3>
     <table>
-      <thead><tr><th>配件</th><th>型号</th><th>价格</th></tr></thead>
+      <thead><tr><th>配件</th><th>型号</th><th style="text-align:right">价格</th></tr></thead>
       <tbody>
-        <tr><td>CPU</td><td>R5-5600 全新散片（6C12T）</td><td>￥699</td></tr>
-        <tr><td>主板</td><td>微星 B550M PRO-VDH</td><td>￥350</td></tr>
-        <tr><td>显卡</td><td>瀚铠 RX9060XT 8GB（性能 > RTX 5060）</td><td>￥2,300+</td></tr>
-        <tr><td>硬盘</td><td>拆机海力士 PC801 1TB</td><td>￥900</td></tr>
-        <tr><td>内存</td><td>拆机英睿达铂胜 DDR4 3200 16G×2</td><td>￥500-600</td></tr>
-        <tr><td>散热/电源/机箱</td><td>利民 AX120R SE + 550W铜牌 + 机箱</td><td>￥370</td></tr>
-        <tr class="summary"><td style="text-align:right">合计</td><td></td><td class="real">约 ￥5,100</td></tr>
+        <tr><td>CPU</td><td>R5-5600 散片（6C12T · Zen3）</td><td style="text-align:right">￥699</td></tr>
+        <tr><td>主板</td><td>微星 B550M PRO-VDH</td><td style="text-align:right">￥350</td></tr>
+        <tr><td>显卡</td><td>瀚铠 RX9060XT 8GB（性能 > RTX 5060）</td><td style="text-align:right">￥2,300+</td></tr>
+        <tr><td>硬盘</td><td>拆机海力士 PC801 1TB</td><td style="text-align:right">￥900</td></tr>
+        <tr><td>内存</td><td>拆机英睿达 DDR4 3200 16G×2</td><td style="text-align:right">￥500-600</td></tr>
+        <tr><td>散热/电源/机箱</td><td>利民 AX120R SE + 550W铜牌 + 机箱</td><td style="text-align:right">￥370</td></tr>
+        <tr class="summary"><td style="text-align:right" colspan="2">合计</td><td class="real" style="text-align:right">约 ￥5,100</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="card">
-    <h3>🟢 方案 B：N卡首选 · 预算内</h3>
+  <div class="rec">
+    <h3><span class="icon">🟢</span> 方案 B：N卡首选 · 预算内</h3>
     <table>
-      <thead><tr><th>配件</th><th>型号</th><th>价格</th></tr></thead>
+      <thead><tr><th>配件</th><th>型号</th><th style="text-align:right">价格</th></tr></thead>
       <tbody>
-        <tr><td>CPU</td><td>i3-12100F 散片</td><td>￥475</td></tr>
-        <tr><td>主板</td><td>铭瑄挑战者 H610M</td><td>￥300</td></tr>
-        <tr><td>显卡</td><td>万丽 RTX 5060 8GB（DLSS 4）</td><td>￥2,100</td></tr>
-        <tr><td>硬盘</td><td>拆机海力士 PC801 1TB</td><td>￥900</td></tr>
-        <tr><td>内存</td><td>拆机英睿达铂胜 DDR4 3200 16G×2</td><td>￥500-600</td></tr>
-        <tr><td>散热/电源/机箱</td><td>利民 AX120R SE + 550W铜牌 + 机箱</td><td>￥370</td></tr>
-        <tr class="summary"><td style="text-align:right">合计</td><td></td><td class="real">约 ￥4,700</td></tr>
+        <tr><td>CPU</td><td>i3-12100F 散片（4C8T）</td><td style="text-align:right">￥475</td></tr>
+        <tr><td>主板</td><td>铭瑄挑战者 H610M</td><td style="text-align:right">￥300</td></tr>
+        <tr><td>显卡</td><td>万丽 RTX 5060 8GB（DLSS 4）</td><td style="text-align:right">￥2,100</td></tr>
+        <tr><td>硬盘</td><td>拆机海力士 PC801 1TB</td><td style="text-align:right">￥900</td></tr>
+        <tr><td>内存</td><td>拆机英睿达 DDR4 3200 16G×2</td><td style="text-align:right">￥500-600</td></tr>
+        <tr><td>散热/电源/机箱</td><td>利民 AX120R SE + 550W铜牌 + 机箱</td><td style="text-align:right">￥370</td></tr>
+        <tr class="summary"><td style="text-align:right" colspan="2">合计</td><td class="real" style="text-align:right">约 ￥4,700</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
 <div class="tip">
-  <b>💡 2026年3月装机建议：</b><br>
-  ① 内存选拆机条，闲鱼 DDR4 16G×2 约 ￥300-600，省 30-50%<br>
-  ② 硬盘选拆机 OEM 盘（海力士 PC801 / 三星 PM9A1），原厂颗粒<br>
+  <b>💡 2026年3月装机建议</b><br>
+  ① 内存选拆机条，闲鱼 DDR4 16G×2 约 ￥300-600，比全新省 30-50%<br>
+  ② 硬盘选拆机 OEM 盘（海力士 PC801 / 三星 PM9A1），原厂颗粒，质保 1 年<br>
   ③ 5000 预算别上 DDR5 新平台，内存吃掉 1/3 预算<br>
   ④ RX9060XT 性价比优于 RTX 5060，性能更强价格更低<br>
   ⑤ 电源不能省，550W 铜牌起步，别买杂牌
