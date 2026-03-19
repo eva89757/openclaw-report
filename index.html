@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw / Claw 深度调研报告 — 2026.03.19</title>
+<style>
+:root{--brand:#e04520;--brand-light:#ff6b47;--dark:#1a1a2e;--text:#2d2d3a;--text-light:#6b6b80;--bg:#fafafa;--card:#fff;--border:#e8e8ef;--blue:#16213e;--purple:#533483}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+.hero{background:linear-gradient(135deg,var(--dark) 0%,#0f3460 50%,var(--purple) 100%);color:#fff;padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 span{color:var(--brand-light)}
+.hero .meta{font-size:14px;opacity:.7;max-width:600px;margin:0 auto;line-height:1.6}
+.hero .tags{margin-top:24px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.hero .tag{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:4px 14px;border-radius:20px;font-size:13px}
+.container{max-width:860px;margin:0 auto;padding:0 24px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;margin:-32px auto 48px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.toc h2{font-size:16px;color:var(--dark);margin-bottom:16px}
+.toc ol{padding-left:20px;columns:2;column-gap:24px}
+.toc li{margin-bottom:6px;font-size:14px}
+.toc a{color:var(--brand);text-decoration:none}
+.toc a:hover{color:var(--brand-light);text-decoration:underline}
+@media(max-width:600px){.toc ol{columns:1}}
+.s{margin-bottom:56px}
+.st{font-size:24px;font-weight:700;color:var(--dark);margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid var(--brand);display:inline-block}
+.st2{font-size:18px;font-weight:600;color:var(--blue);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:block}
+p{margin-bottom:16px;font-size:15.5px}
+.hl{background:linear-gradient(135deg,#fff5f2,#fff0eb);border-left:4px solid var(--brand);border-radius:0 8px 8px 0;padding:20px 24px;margin:24px 0;font-size:15px}
+.hl strong{color:var(--brand)}
+blockquote{background:#f4f4f8;border-left:4px solid var(--purple);margin:20px 0;padding:16px 20px;border-radius:0 8px 8px 0}
+blockquote p{margin:0;font-size:14px;color:#444}
+blockquote .au{font-size:12px;color:var(--text-light);margin-top:8px;font-style:normal}
+.tw{overflow-x:auto;margin:20px 0;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead{background:var(--dark);color:#fff}
+th{padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:#f8f8fc}
+tbody tr:last-child td{border-bottom:none}
+pre{background:#1e1e2e;color:#cdd6f4;padding:20px;border-radius:8px;overflow-x:auto;font-family:"Cascadia Code","Fira Code",Consolas,monospace;font-size:13px;line-height:1.6;margin:20px 0}
+code{background:#f0f0f5;padding:2px 6px;border-radius:4px;font-family:"Cascadia Code","Fira Code",Consolas,monospace;font-size:13px}
+pre code{background:none;padding:0}
+.stars{color:#f59e0b;font-size:13px;letter-spacing:1px}
+.cg{display:grid;gap:16px;margin:24px 0}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;transition:box-shadow .2s}
+.cc:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.cc .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--brand);color:#fff;border-radius:50%;font-size:13px;font-weight:700;margin-bottom:10px}
+.cc h4{font-size:15px;color:var(--dark);margin-bottom:8px}
+.cc p{font-size:14px;color:var(--text-light);margin:0}
+.ib{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;border-radius:12px;padding:28px;margin:24px 0}
+.ib h3{font-size:16px;margin-bottom:12px;color:var(--brand-light)}
+.ib p{font-size:14.5px;line-height:1.9;opacity:.9;margin-bottom:12px}
+.ib p:last-child{margin:0}
+.refs{font-size:13.5px;line-height:2.2}
+.refs h3{font-size:14px;color:var(--dark);margin-bottom:12px}
+.refs a{color:var(--brand);text-decoration:none}
+.refs a:hover{text-decoration:underline}
+.refs .lt{display:inline-block;background:var(--dark);color:#fff;font-size:11px;padding:1px 8px;border-radius:10px;margin-right:4px;vertical-align:middle}
+footer{text-align:center;padding:40px 24px;color:var(--text-light);font-size:13px;border-top:1px solid var(--border);margin-top:56px}
+@media(max-width:600px){.hero{padding:48px 16px 36px}.toc{margin:-24px 12px 36px;padding:20px}.s{margin-bottom:40px}th,td{padding:8px 10px;font-size:13px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>&#x1F99E; <span>OpenClaw / Claw</span> 深度调研报告</h1>
+  <p class="meta">调研时间：2026 年 3 月 19 日<br>调研方法：中英文多源交叉验证 + 关键页面深度阅读<br>信源覆盖：GitHub、官方文档、知乎、腾讯云、CSDN、什么值得买、Twitter/X</p>
+  <div class="tags">
+    <span class="tag">AI Agent</span>
+    <span class="tag">开源</span>
+    <span class="tag">本地优先</span>
+    <span class="tag">个人 AI 助手</span>
+    <span class="tag">2026</span>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h2>&#x1F4D1; 目录</h2>
+  <ol>
+    <li><a href="#ov">概述</a></li>
+    <li><a href="#bg">背景</a></li>
+    <li><a href="#st">现状分析</a></li>
+    <li><a href="#cs">典型案例与代表性观点</a></li>
+    <li><a href="#tr">发展趋势</a></li>
+    <li><a href="#sm">总结</a></li>
+    <li><a href="#rf">参考来源</a></li>
+  </ol>
+</div>
+
+<!-- 一、概述 -->
+<div class="s" id="ov">
+  <div class="st">一、概述</div>
+  <div class="hl"><strong>一句话总结：OpenClaw 是给个人 AI Agent 装上"手和脚"的开源操作系统。</strong></div>
+  <p>OpenClaw 是一个<strong>开源、本地优先（local-first）的个人 AI Agent 运行时平台</strong>。它不是一个简单的聊天机器人，而是一个能自主执行任务、操作设备、管理通讯、连接工具链的全功能 AI 助手框架。</p>
+  <p>用户通过自己已有的聊天应用（WhatsApp / Telegram / 微信 / 飞书等）与它对话，它在后台拥有完整的计算能力——能读写文件、浏览网页、控制浏览器、管理日历、发送邮件、运行代码。</p>
+  <p>2026 年初，OpenClaw 从一个小众开源项目爆发成为全球 AI Agent 领域的技术标杆，被 Karpathy 等知名技术人物推荐，GitHub 组织拥有 <strong>23 个仓库</strong>，社区贡献了 <strong>177 个生产级 Agent 模板</strong>。</p>
+</div>
+
+<!-- 二、背景 -->
+<div class="s" id="bg">
+  <div class="st">二、背景</div>
+  <div class="st2">创始人</div>
+  <div class="tw"><table>
+    <thead><tr><th>维度</th><th>信息</th></tr></thead>
+    <tbody>
+      <tr><td>创始人</td><td><strong>Peter Steinberger</strong>（@steipete），PSPDFKit 创始人，iOS 开发社区知名人物</td></tr>
+      <tr><td>项目代号</td><td>Molty — 一只太空龙虾 AI 助手</td></tr>
+      <tr><td>开源协议</td><td>MIT（完全开放透明）</td></tr>
+      <tr><td>首次公开</td><td>2025 年末，2026 年初爆发</td></tr>
+    </tbody>
+  </table></div>
+  <div class="st2">技术栈</div>
+  <div class="tw"><table>
+    <thead><tr><th>维度</th><th>描述</th></tr></thead>
+    <tbody>
+      <tr><td>类型</td><td>开源个人 AI Agent 运行时</td></tr>
+      <tr><td>核心语言</td><td>TypeScript</td></tr>
+      <tr><td>运行时</td><td>Node.js ≥22</td></tr>
+      <tr><td>安装方式</td><td>npm / pnpm / bun / Docker / Nix</td></tr>
+      <tr><td>企业赞助</td><td>OpenAI、Vercel、Blacksmith、Convex</td></tr>
+    </tbody>
+  </table></div>
+  <div class="st2">核心架构</div>
+  <pre>用户（WhatsApp / Telegram / 微信 / 飞书 / ... 26+ 渠道）
+                    |
+                    v
+          +-------------------+
+          |      Gateway      |  &lt;- 本地控制平面
+          |  (control plane)  |    ws://127.0.0.1:18789
+          +---------+---------+
+                    |
+       +------------+------------+
+       |            |            |
+  Pi Agent        CLI         WebChat
+  (AI 推理)     (命令行)      (网页端)
+       |            |
+  macOS App    iOS / Android
+  (菜单栏)      (节点设备)</pre>
+  <p><strong>架构理念：</strong>Gateway 是唯一的控制平面。所有消息渠道、工具调用、设备节点都通过 WebSocket 汇聚到 Gateway。Agent 在 Gateway 内以 RPC 模式运行，通过工具链与外部世界交互。</p>
+</div>
+
+<!-- 三、现状分析 -->
+<div class="s" id="st">
+  <div class="st">三、现状分析</div>
+
+  <div class="st2">1. 生态规模</div>
+  <div class="tw"><table>
+    <thead><tr><th>项目</th><th>描述</th></tr></thead>
+    <tbody>
+      <tr><td><code>openclaw/openclaw</code></td><td>主仓库：Gateway + Agent 运行时 + CLI</td></tr>
+      <tr><td>GitHub 组织</td><td><strong>23 个仓库</strong></td></tr>
+      <tr><td>ClawHub</td><td>技能注册与分发市场</td></tr>
+      <tr><td><code>awesome-openclaw-agents</code></td><td><strong>177 个</strong>生产级 AI Agent 模板</td></tr>
+      <tr><td><code>OpenClaw-RL</code></td><td>强化学习框架</td></tr>
+      <tr><td><code>ClawWork</code></td><td>AI Agent 经济测试系统（港大）</td></tr>
+      <tr><td><code>clawhost</code></td><td>一键云托管服务</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st2">2. 核心能力矩阵</div>
+  <div class="tw"><table>
+    <thead><tr><th>能力维度</th><th>具体功能</th></tr></thead>
+    <tbody>
+      <tr><td><strong>多渠道通讯</strong></td><td>26+ 渠道：WhatsApp、Telegram、Slack、Discord、Signal、iMessage、微信、飞书、钉钉、QQ 等</td></tr>
+      <tr><td><strong>工具链</strong></td><td>浏览器控制（CDP）、Canvas 可视化、设备节点、Cron、Webhook</td></tr>
+      <tr><td><strong>多模型</strong></td><td>OpenAI、Anthropic、DeepSeek、MiniMax、Ollama（本地）</td></tr>
+      <tr><td><strong>语音</strong></td><td>macOS/iOS 语音唤醒、Android 持续语音、ElevenLabs TTS</td></tr>
+      <tr><td><strong>记忆</strong></td><td>SOUL.md / USER.md / MEMORY.md 持久化工作区</td></tr>
+      <tr><td><strong>多智能体</strong></td><td>Agent 间路由、Session 隔离、子 Agent 编排</td></tr>
+      <tr><td><strong>安全</strong></td><td>DM 配对、Docker 沙箱、allowlist/denylist</td></tr>
+      <tr><td><strong>设备节点</strong></td><td>macOS / iOS / Android 配对，远程执行</td></tr>
+      <tr><td><strong>技能系统</strong></td><td>三层：bundled / managed / workspace</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st2">3. 用户口碑（100+ 条评价）</div>
+  <div class="tw"><table>
+    <thead><tr><th>关键词</th><th>强度</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>"magic"</td><td class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>体验冲击力</td></tr>
+      <tr><td>"game changer"</td><td class="stars">&#9733;&#9733;&#9733;&#9733;</td><td>范式转换</td></tr>
+      <tr><td>"the future"</td><td class="stars">&#9733;&#9733;&#9733;&#9733;</td><td>ChatGPT 级震撼</td></tr>
+      <tr><td>"addictive"</td><td class="stars">&#9733;&#9733;&#9733;</td><td>高粘性</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st2">标志性评价</div>
+  <blockquote><p>"Excellent reading thank you. Love oracle and Claw."</p><p class="au">— @karpathy，前 Tesla AI 总监</p></blockquote>
+  <blockquote><p>"What @steipete has built with @openclaw is out of this world."</p><p class="au">— @KrauseFx，CocoaPods 创始人</p></blockquote>
+  <blockquote><p>"At this point I don't even know what to call @openclaw. It is something new."</p><p class="au">— @davemorin，前 Facebook Path CEO</p></blockquote>
+  <blockquote><p>"A megacorp like Anthropic or OpenAI could not build this."</p><p class="au">— @Dimillian，Ice Cubes 作者</p></blockquote>
+  <blockquote><p>"Open source built a better version of Siri that Apple ($3.6T company) was sleeping on for years."</p><p class="au">— @Hesamation</p></blockquote>
+
+  <div class="st2">高频使用场景 TOP 10</div>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>场景</th><th>典型描述</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>手机远程编程</td><td>从 Telegram 指挥 Codex 自动修 bug</td></tr>
+      <tr><td>2</td><td>邮件管理</td><td>自动退订、分类、发送、处理保险</td></tr>
+      <tr><td>3</td><td>日程管理</td><td>根据交通提醒出门时间</td></tr>
+      <tr><td>4</td><td>自建技能</td><td>Agent 自己编写 SKILL.md 热加载</td></tr>
+      <tr><td>5</td><td>多智能体协作</td><td>子 Agent 并行处理任务</td></tr>
+      <tr><td>6</td><td>IoT 控制</td><td>空气净化器、智能家居</td></tr>
+      <tr><td>7</td><td>内容创作</td><td>推文、博客、冥想音频</td></tr>
+      <tr><td>8</td><td>网页自动化</td><td>自行注册 API Key、配置 OAuth</td></tr>
+      <tr><td>9</td><td>数据处理</td><td>几分钟处理全部数据源</td></tr>
+      <tr><td>10</td><td>语音交互</td><td>ElevenLabs 合成语音打电话</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- 四、典型案例 -->
+<div class="s" id="cs">
+  <div class="st">四、典型案例与代表性观点</div>
+
+  <div class="st2">案例 1：自我进化的 Agent</div>
+  <p>用户用自然语言描述需求，Agent 自行编写 SKILL.md 并热加载使用——Agent 不仅是工具的使用者，更是创造者。</p>
+  <blockquote><p>"I wanted to automate some tasks from Todoist and claw created a skill for it on its own, all within a Telegram chat."</p><p class="au">— @iamsubhrajyoti</p></blockquote>
+
+  <div class="st2">案例 2：从手机管理公司</div>
+  <blockquote><p>"It's running my company."</p><p class="au">— @therno</p></blockquote>
+  <blockquote><p>"AI as teammate, not tool. The endgame of digital employees is here."</p><p class="au">— @lycfyi</p></blockquote>
+
+  <div class="st2">案例 3：经济自治测试（ClawWork）</div>
+  <p>港大 DS 实验室：Agent 必须完成任务赚取收入支付 API 费用，"入不敷出"则被终止——对 AI Agent 经济可行性的开创性探索。</p>
+
+  <div class="st2">案例 4：Agent 自行解决问题</div>
+  <blockquote><p>"My @openclaw realised it needed an API key... opened my browser... Google Cloud Console... Configured oauth and provisioned a new token."</p><p class="au">— @Infoxicador</p></blockquote>
+
+  <div class="st2">案例 5：国内本土化</div>
+  <div class="tw"><table>
+    <thead><tr><th>项目</th><th>特点</th></tr></thead>
+    <tbody>
+      <tr><td>CountBot</td><td>MIT 协议，飞书/钉钉/QQ/微博</td></tr>
+      <tr><td>LobsterAI</td><td>有道龙虾，消费级助手</td></tr>
+      <tr><td>AutoClaw</td><td>适配国内通讯渠道</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- 五、发展趋势 -->
+<div class="s" id="tr">
+  <div class="st">五、发展趋势</div>
+
+  <div class="st2">1. 极致轻量化 — "从 OpenClaw 到 NullClaw"</div>
+  <div class="tw"><table>
+    <thead><tr><th>层级</th><th>项目</th><th>定位</th></tr></thead>
+    <tbody>
+      <tr><td>标杆</td><td>OpenClaw</td><td>全功能重型框架</td></tr>
+      <tr><td>衍生</td><td>NanoClaw</td><td>安全隔离轻量版</td></tr>
+      <tr><td>衍生</td><td>PicoClaw</td><td>极致轻量化</td></tr>
+      <tr><td>衍生</td><td>TinyClaw</td><td>低资源设备适配</td></tr>
+      <tr><td>独立</td><td>nanobot</td><td>4000 行代码核心能力</td></tr>
+      <tr><td>独立</td><td>IronClaw</td><td>多任务沙箱隔离</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st2">2. 强化学习 + 个性化</div>
+  <p>OpenClaw-RL 将日常对话转化为个性化训练信号，从"通用助手"到"真正个人 AI"的关键跃迁。</p>
+
+  <div class="st2">3. AI 硬件新底座</div>
+  <p>OpenClaw 正成为 AI 硬件的底层运行时。个人 AI 设备需要一个成熟的 Agent 运行时，本地优先 + 多渠道架构天然适配。</p>
+
+  <div class="st2">4. Agent 即服务</div>
+  <p>clawhost 一键云托管，未来可能出现"OpenClaw PaaS"——类似 Vercel 之于前端开发。</p>
+
+  <div class="st2">5. 安全与隐私深化</div>
+  <p>更细粒度权限控制、沙箱标准化、审计工具、合规适配（GDPR、等保）。</p>
+
+  <div class="st2">6. 多智能体经济</div>
+  <p>Agent 从"工具"演变为"经济参与者"，Token economy 成为 AI 生态的基础货币。</p>
+</div>
+
+<!-- 六、总结 -->
+<div class="s" id="sm">
+  <div class="st">六、总结</div>
+
+  <div class="st2">核心结论</div>
+  <div class="cg">
+    <div class="cc"><div class="n">1</div><h4>不是聊天 AI，而是个人 AI 操作系统</h4><p>核心创新在于将 AI 推理能力与工具链、设备控制、通讯渠道深度整合。</p></div>
+    <div class="cc"><div class="n">2</div><h4>生态已从"项目"升级为"平台"</h4><p>23 个仓库、177 个 Agent 模板、数十个衍生项目、ClawHub 技能市场——飞轮效应。</p></div>
+    <div class="cc"><div class="n">3</div><h4>"本地优先"是差异化护城河</h4><p>坚持本地部署、数据自主、用户可控，既是技术选择也是哲学立场。</p></div>
+    <div class="cc"><div class="n">4</div><h4>轻量化是最大挑战和机会</h4><p>谁能做到"5 分钟部署、1GB 内存即可运行"，谁就拿下最大用户群。</p></div>
+    <div class="cc"><div class="n">5</div><h4>2026 是个人 AI Agent 元年</h4><p>GitHub 爆发式增长、Karpathy 推荐、177 个模板——处于从早期采用者到主流市场的拐点。</p></div>
+  </div>
+
+  <div class="st2">独立洞察</div>
+  <div class="ib">
+    <h3>&#x1F4A1; 独立洞察</h3>
+    <p>OpenClaw 的真正竞争对手不是其他 Agent 框架，而是大型科技公司的平台化整合。如果 Apple / Google / Microsoft 将类似能力原生集成到操作系统，多渠道优势可能被削弱。</p>
+    <p>但 OpenClaw 有大厂无法复制的三大优势：<strong>开源透明</strong>（审计每一行代码）、<strong>可定制性</strong>（SOUL.md / Skills 打造独一无二的 Agent）、<strong>社区创新速度</strong>（177 个模板不是任何公司团队可短期量产的）。</p>
+    <p>正如社区所说："A megacorp could not build this."</p>
+  </div>
+</div>
+
+<!-- 七、参考来源 -->
+<div class="s" id="rf">
+  <div class="st">七、参考来源</div>
+
+  <div class="refs">
+    <h3>英文信源</h3>
+    <p>1. <a href="https://openclaw.ai" target="_blank">OpenClaw — Personal AI Assistant（官网）</a></p>
+    <p>2. <a href="https://github.com/openclaw/openclaw" target="_blank">openclaw/openclaw — GitHub</a></p>
+    <p>3. <a href="https://github.com/openclaw" target="_blank">openclaw GitHub Organization（23 repos）</a></p>
+    <p>4. <a href="https://github.com/mergisi/awesome-openclaw-agents" target="_blank">awesome-openclaw-agents（177 模板）</a></p>
+    <p>5. <a href="https://github.com/VoltAgent/awesome-openclaw-skills" target="_blank">awesome-openclaw-skills</a></p>
+    <p>6. <a href="https://github.com/Gen-Verse/OpenClaw-RL" target="_blank">OpenClaw-RL（强化学习框架）</a></p>
+    <p>7. <a href="https://github.com/HKUDS/ClawWork" target="_blank">ClawWork（经济测试系统）</a></p>
+    <p>8. <a href="https://github.com/abhi1693/openclaw-mission-control" target="_blank">openclaw-mission-control</a></p>
+    <p>9. <a href="https://github.com/topics/openclaw-agent" target="_blank">openclaw-agent — GitHub Topic</a></p>
+
+    <h3 style="margin-top:24px">中文信源</h3>
+    <p>10. <a href="https://cloud.tencent.com/developer/article/2636908" target="_blank">2026 年轻量级 AI Agent 行业观察 — 腾讯云</a></p>
+    <p>11. <a href="https://zhuanlan.zhihu.com/p/2016068088341213694" target="_blank">OpenClaw 开源智能体框架爆红 — 知乎</a></p>
+    <p>12. <a href="https://post.smzdm.com/p/ae6mqv8m" target="_blank">2026 年初开源 Agent 爆发 — 什么值得买</a></p>
+    <p>13. <a href="https://claw.csdn.net/69b412aa54b52172bc610c96.html" target="_blank">2026 爆火开源 AI 智能体 — CSDN</a></p>
+    <p>14. <a href="https://damodev.csdn.net/69821f19a16c6648a98718f3.html" target="_blank">GitHub 最火开源项目 — CSDN</a></p>
+    <p>15. <a href="https://zhuanlan.zhihu.com/p/2011029302767032126" target="_blank">OpenClaw 生态爆发 — 知乎</a></p>
+    <p>16. <a href="https://www.cnblogs.com/nocobase/p/19706610" target="_blank">2026 年值得关注的 20 个 GitHub AI 项目 — 博客园</a></p>
+    <p>17. <a href="https://cloud.tencent.com/developer/article/2636161" target="_blank">2025 年 GitHub 热门开源项目排行榜 — 腾讯云</a></p>
+    <p>18. <a href="https://h5.ifeng.com/c/vivoArticle/v0022frQdEvfNsEiKU5idex6LU6WKc8HnKEUxQjKfniBNKk__" target="_blank">OpenClaw 霸榜 — 凤凰网</a></p>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>本报告由 AI 助手基于多源信息自动生成，仅供参考。</p>
+  <p>数据截止时间：2026 年 3 月 19 日</p>
+</footer>
+
+</body>
+</html>
